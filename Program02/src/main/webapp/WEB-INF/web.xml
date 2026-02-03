@@ -5,8 +5,8 @@
     xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
     version="6.0">
   <display-name>AppName</display-name>
-
-<servlet>
+  
+  <servlet>
         <servlet-name>SaveServlet</servlet-name>
         <servlet-class>Task2.SaveServlet</servlet-class>
         
@@ -32,7 +32,11 @@
         <url-pattern>/Running</url-pattern>
     </servlet-mapping>
           
-
   
 </web-app>
+
+
+
+  
+
 

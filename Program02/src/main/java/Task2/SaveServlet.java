@@ -39,7 +39,7 @@ public class SaveServlet extends HttpServlet
 		/* try {
 	            
 	            Connection con = DbConnection.getConnection(url, dbusername, dbpassword);
-
+ 
 	            
 	            String sql =
 	                "INSERT INTO uservalue (username, age, gender, email) VALUES (?, ?, ?, ?)";
@@ -72,9 +72,9 @@ public class SaveServlet extends HttpServlet
 			
 			Statement std =con.createStatement();
 			
-			String sql ="Insert INTO uservalue (username,age,gender,email) values ('"+usernamee+"','"+age+"','"+gender+"','"+email+"')";
+			String sql ="Insert INTO UserTable (username,age,gender,email) values ('"+usernamee+"','"+age+"','"+gender+"','"+email+"')";
 			
-			//System.out.println(sql);
+			System.out.println(sql);
 			
 			int res1=std.executeUpdate(sql);
 			
@@ -97,7 +97,7 @@ public class SaveServlet extends HttpServlet
 		
 	}
 	
-	public void doGet(HttpServletRequest req,HttpServletResponse res) throws IOException
+/*	public void doGet(HttpServletRequest req,HttpServletResponse res) throws IOException
 	{
 		res.setContentType("Application/json");		
 		PrintWriter out=res.getWriter();
@@ -119,7 +119,7 @@ public class SaveServlet extends HttpServlet
 	       
 		  
 		    	        
-	        while(rst.next())
+	       while(rst.next())
 	        {
 	        	
 	        	jsonRes.append(String.format("{\"username\" : \"%s\",\"age\" :\"%s\" ,\"gender\":\"%s\",\"email\" :\"%s\"},"
@@ -135,7 +135,8 @@ public class SaveServlet extends HttpServlet
 	       
 	        out.print(jsonRes.toString());
 	      
-		}catch(Exception e){
+		}
+		catch(Exception e){
 			e.printStackTrace();
 			out.println("error:"+e.getMessage());
 			
@@ -144,9 +145,67 @@ public class SaveServlet extends HttpServlet
 		
 		
 		  
-		}
+		}*/
+	
+	public void doGet(HttpServletRequest req,HttpServletResponse res) throws IOException
+	{
+		res.setContentType("Application/json");		
+		PrintWriter out=res.getWriter();
 		
+		ServletConfig config =super.getServletConfig();
+		String url =config.getInitParameter("dbUrl");
+		String dbusername =config.getInitParameter("dbUsername");
+		String dbpassword =config.getInitParameter("dbPassword");
+
+		StringBuilder jsonRes =new StringBuilder("employee:[");
+
+		
+try {
+			
+            Connection con = DbConnection.getConnection(url, dbusername, dbpassword);
+		    Statement std =con.createStatement();
+		    
+		    String query="Select*from uservalue";
+		    ResultSet rst= std.executeQuery(query);
+		  
+		
+		
+		
+		  for(int i=0;rst.next();i++)
+		     {
+		        if(jsonRes.length() > "employee:[".length() )
+		        {
+		        	jsonRes.append(",");
+		        	
+		        }
+			  
+		     	String line = String.format("{\"username\" : \"%s\",\"age\" :\"%s\" ,\"gender\":\"%s\",\"email\":\"%s\"}"
+		     			,rst.getString(1),
+	        			rst.getString(2),
+	        			rst.getString(3),
+	        			rst.getString(4));
+		     	
+		     	jsonRes.append(line);
+		     	
+		     }
+		 
+
+		  
+}
+catch(Exception e){
+	e.printStackTrace();
+	out.println("error:"+e.getMessage());
+	
+}
+ jsonRes.append("]");
+ 
+ String response=jsonRes.toString();
+ res.setContentType("Application/json");
+ PrintWriter out1=res.getWriter();
+ out.println(response);
+
+}
 		
 	}
 
-
+	

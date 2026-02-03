@@ -10,7 +10,7 @@ public class ShareDataB extends HttpServlet
 {
 protected void doGet(HttpServletRequest req,HttpServletResponse res)
 {
-    String name =(String) req.getAttribute("name");
+   String name =(String) req.getAttribute("name");
    String password =(String)  req.getAttribute("password");
    
    System.out.println(name+" "+password);
